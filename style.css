@@ -1,0 +1,463 @@
+/* =========================
+   GLOBAL STYLES
+========================= */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #e8e8e8;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* =========================
+   HERO FRAME & LAYOUT
+========================= */
+.hero-frame {
+    position: relative;
+    width: 100%;
+    height: calc(105vh - 45px);
+    overflow: hidden;
+    border-radius: 40px;
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    background: #000;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, .15);
+    display: flex;
+    flex-direction: column;
+}
+.hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    
+    /* This pure black background will blend with the video 
+       when we lower the video's opacity below */
+    background-color: #000000; 
+}
+
+.hero-bg video {
+    width: 113%;
+    height: 100%;
+    object-fit: cover;
+    
+    /* 💡 OPACITY DROP: Lowering this to 0.45 reduces the harshness 
+       of the video by 55%, blending it smoothly into the black backdrop */
+    opacity: 0.45; 
+}
+
+.hero-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    
+    /* 💡 OVERLAY TINT: We use a multi-directional gradient. 
+       - It is darker on the left (0.85) to make your massive white <h1> text perfectly legible.
+       - It goes slightly darker at the very bottom (0.5) to anchor your action buttons. */
+    background: linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0.85) 0%,
+        rgba(0, 0, 0, 0.5) 50%,
+        rgba(0, 0, 0, 0.3) 100%
+    );
+    
+    /* Keeps the overlay strictly on top of the video canvas */
+    z-index: 2; 
+}
+
+/* =========================
+   THE NOTCH (As requested!)
+========================= */
+.notch {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Adjusted width to perfectly wrap the icon + text combo */
+    width: 240px; 
+    height: 52px;
+    background: #ffffff;
+    
+    /* Sleek Apple-style curved bottom edges */
+    border-radius: 0 0 24px 24px; 
+    z-index: 100;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    padding: 0 15px;
+}
+
+.logo a {
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center; /* Locks image and text on the exact same center line */
+    justify-content: center;
+    gap: 8px; /* Clean spacing between your logo icon and the text */
+    height: 100%;
+}
+
+/* Style for the circle icon graphic */
+.logo img {
+    height: 32px; /* Scales down smoothly to match text height */
+    width: auto;
+    object-fit: contain;
+}
+
+/* "ArtCircle" - Bold, Modern Typography */
+.logo-main {
+    color: #111111; /* Sharp dark contrast against the white notch */
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1;
+}
+
+/* Premium Gold Dot "." Accent */
+.logo-dot {
+    color: #d6b062; /* Ties into your layout button color theme */
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1;
+    margin-left: 1px;
+}
+
+/* Smooth Interactive Hover State */
+.logo a:hover .logo-main {
+    color: #d6b062; /* Text turns gold on hover */
+    transition: color 0.2s ease;
+}
+
+.logo a:hover .logo-dot {
+    color: #111111; /* Dot turns black on hover */
+    transition: color 0.2s ease;
+}
+
+
+/* =========================
+   SPLIT NAVBAR ALIGNMENT
+========================= */
+.navbar {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    padding: 25px 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+nav ul {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Spacing between the capsules */
+    list-style: none;
+}
+nav a, .nav-link-alt {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.9rem;
+    padding: 8px 20px;
+    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05); /* Very slight background tint */
+    border: 1px solid rgba(255, 255, 255, 0.25); /* Transparent white border */
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+nav a:hover, nav a.active, .nav-link-alt:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15); /* Brightens background on hover */
+    border-color: rgba(255, 255, 255, 0.6);   /* Solidifies border crispness */
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.nav-btn {
+    border: none;
+    background: #d6b062;
+    color: #111;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    height: 38px; /* Force-aligns heights with link capsules */
+    display: flex;
+    align-items: center;
+}
+
+.nav-btn:hover {
+    transform: scale(1.03);
+}
+
+.menu-btn {
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    display: none;
+}
+
+/* =========================
+   MAIN TWO-COLUMN GRID
+========================= */
+.hero-main-layout {
+    position: relative;
+    z-index: 10;
+    flex: 1;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: center;
+    padding: 0 60px 40px 60px;
+}
+
+/* Left Content Styles */
+.hero-content {
+    max-width: 650px;
+}
+
+.community {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.avatars {
+    display: flex;
+}
+
+.avatars img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid white;
+    margin-left: -15px;
+}
+
+.avatars img:first-child {
+    margin-left: 0;
+}
+
+.community p {
+    color: #eee;
+    font-size: 0.95rem;
+}
+
+.hero-content h1 {
+    color: white;
+    font-size: 4.5rem;
+    line-height: 1.1;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.hero-content h1 span {
+    color: #d6b062;
+}
+
+.hero-description {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.1rem;
+    margin-bottom: 35px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+    text-decoration: none;
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary {
+    background: #d6b062;
+    color: black;
+}
+
+.btn-secondary {
+    color: white;
+    border: 1px solid rgba(255, 255, 255, .4);
+    backdrop-filter: blur(15px);
+}
+
+.btn-primary:hover { transform: translateY(-2px); }
+.btn-secondary:hover { background: rgba(255,255,255,0.1); }
+
+/* =========================
+   RIGHT SIDEBAR STACK
+========================= */
+.hero-sidebar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 20px;
+    justify-self: end;
+}
+
+.social-links {
+    display: flex;
+    gap: 12px;
+}
+
+.social-btn {
+    text-decoration: none;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
+}
+
+.social-btn i {
+    font-size: 1.05rem;
+    line-height: 1;
+}
+
+.social-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.facebook {
+    background: #1877F2;
+    color: #ffffff;
+}
+
+.instagram {
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+    color: #ffffff;
+}
+
+.tiktok {
+    background: #010101;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.tiktok i {
+    color: #00f2fe;
+    text-shadow: 1px 1px 0px #fe0946, -1px -1px 0px #00f2fe;
+}
+
+/* Floating Card Layout */
+.floating-card {
+    width: 320px;
+    padding: 25px;
+    border-radius: 24px;
+    backdrop-filter: blur(25px);
+    background: rgba(255, 255, 255, .12);
+    border: 1px solid rgba(255, 255, 255, .2);
+    color: white;
+}
+
+.floating-card h3 {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #d6b062;
+    margin-bottom: 5px;
+}
+
+.floating-card h2 {
+    font-size: 1.6rem;
+    margin-bottom: 5px;
+}
+
+.floating-card p {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    margin-bottom: 15px;
+}
+
+.floating-card a {
+    color: #d6b062;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Download Card Layout */
+.download-card {
+    width: 320px;
+    padding: 25px;
+    background: white;
+    border-radius: 24px;
+}
+
+.download-card h3 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #111;
+}
+
+.download-card button {
+    width: 100%;
+    border: none;
+    background: #111;
+    color: white;
+    padding: 14px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.download-card button:hover {
+    opacity: 0.9;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+@media (max-width: 1024px) {
+    .navbar { padding: 20px 30px; }
+    .hero-main-layout { 
+        grid-template-columns: 1fr;
+        padding: 0 30px 30px 30px;
+        gap: 40px;
+    }
+    nav, .nav-link-alt { display: none; }
+    .menu-btn { display: block; }
+    .hero-sidebar {
+        align-items: flex-start;
+        justify-self: start;
+        width: 100%;
+    }
+    .social-links { width: 100%; flex-wrap: wrap; }
+    .floating-card, .download-card { width: 100%; max-width: 400px; }
+}
+@media (max-width: 768px) {
+    .notch {
+        width: 220px;
+        height: 44px;
+        padding: 4px 12px;
+    }
+    .logo img {
+        max-height: 28px;
+    }
+}
