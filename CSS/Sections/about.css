@@ -1,0 +1,188 @@
+.about-showcase {
+    background: #f7f5f2;
+    padding: 100px 5%;
+    border-radius: 40px 40px 0 0;
+    margin-top: 10px;
+    position: relative;
+    z-index: 20;
+}
+
+.section-tag {
+    color: #d6b062;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 30px;
+    align-items: center;
+}
+
+.about-intro h2 {
+    font-size: 3rem;
+    line-height: 1.1;
+    margin: 20px 0;
+    color: #111;
+}
+
+.about-intro h2 span {
+    color: #d6b062;
+}
+
+.about-intro p {
+    color: #666;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+.learn-btn {
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    padding: 14px 28px;
+    background: #111;
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+}
+
+.about-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 30px;
+}
+
+.about-card img,
+.community-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.large-card {
+    height: 420px;
+}
+
+.small-card {
+    height: 420px;
+}
+
+.card-overlay {
+    position: absolute;
+    bottom: 25px;
+    left: 25px;
+    right: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+.card-overlay button {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    border: none;
+    background: #d6b062;
+    cursor: pointer;
+}
+
+.card-content {
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+    width: 70%;
+    background: rgba(0,0,0,0.85);
+    color: white;
+    padding: 25px;
+    border-radius: 24px;
+}
+
+.mission-section {
+    margin-top: 80px;
+    background: rgba(255,255,255,0.7);
+    border-radius: 35px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 320px;
+    gap: 40px;
+    backdrop-filter: blur(20px);
+}
+
+.mission-info {
+    display: flex;
+    gap: 25px;
+}
+
+.mission-logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+}
+
+.mission-info h2 {
+    font-size: 2.5rem;
+    color: #111;
+    margin: 10px 0;
+}
+
+.mission-info p {
+    color: #666;
+    line-height: 1.8;
+}
+
+.stats-grid {
+    display: flex;
+    gap: 25px;
+}
+
+.stat-card {
+    flex: 1;
+    text-align: center;
+}
+
+.stat-card i {
+    color: #d6b062;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.stat-card h3 {
+    font-size: 2rem;
+    color: #111;
+}
+
+.stat-card p {
+    color: #666;
+}
+
+.community-card {
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+
+@media (max-width: 992px) {
+
+    .about-grid,
+    .mission-section {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        flex-direction: column;
+    }
+
+    .about-intro h2,
+    .mission-info h2 {
+        font-size: 2rem;
+    }
+
+    .large-card,
+    .small-card {
+        height: 300px;
+    }
+}
