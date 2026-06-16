@@ -97,13 +97,12 @@ body {
 }
 
 .hero-bg video {
-    width: 113%;
+    width: 100%;
     height: 100%;
     object-fit: cover;
-    
-    /* 💡 OPACITY DROP: Lowering this to 0.45 reduces the harshness 
-       of the video by 55%, blending it smoothly into the black backdrop */
-    opacity: 0.45; 
+    opacity: 0.45;
+    transform: scale(1.12);
+    transform-origin: center;
 }
 
 .hero-bg::after {

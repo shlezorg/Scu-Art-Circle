@@ -474,3 +474,23 @@ function showToast(message, icon = 'fa-circle-check') {
         }, 500);
     }, 4500);
 }
+
+// ==========================================
+// IPAD/IOS SAFARI VIDEO AUTOPLAY FALLBACK
+// ==========================================
+const heroVideo = document.querySelector('.hero-bg video');
+if (heroVideo) {
+    const playPromise = heroVideo.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(() => {
+            // Autoplay blocked (e.g. low power mode), wait for user interaction to trigger
+            const startVideo = () => {
+                heroVideo.play();
+                document.removeEventListener('click', startVideo);
+                document.removeEventListener('touchstart', startVideo);
+            };
+            document.addEventListener('click', startVideo);
+            document.addEventListener('touchstart', startVideo);
+        });
+    }
+}
