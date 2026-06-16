@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="CSS/style.css">
     <link rel="stylesheet" href="CSS/Sections/about.css">
+    <script src="JS/main.js" defer></script>
 </head>
 <body>
     <section class="hero-frame">
@@ -79,11 +80,11 @@
             <!-- Right Side Stacked Panels -->
             <div class="hero-sidebar">
                 <div class="social-links">
-    <a href="#" class="social-btn facebook">
+    <a href="#" data-name="Facebook" class="social-btn facebook">
         <i class="fab fa-facebook-f"></i></a>
-    <a href="#" class="social-btn instagram">
+    <a href="#" data-name="Instagram" class="social-btn instagram">
         <i class="fab fa-instagram"></i></a>
-    <a href="#" class="social-btn tiktok">
+    <a href="#" data-name="TikTok" class="social-btn tiktok">
         <i class="fab fa-tiktok"></i></a>
 </div>
 
@@ -141,14 +142,67 @@
         </div>
 
         <div class="about-card small-card">
-            <img src="ASSETS/images/Dancing girls.svg" alt="Visual Arts">
+
+    <div class="slider-container">
+
+        <div class="slide active">
+            <img src="ASSETS/images/Dancing girls.svg" alt="Music">
 
             <div class="card-content">
-                <h3>Performances</h3>
+                <h3>Music</h3>
                 <p>
-                    From performance to expression, we turn imagination into masterpieces.
+                    Creating unforgettable experiences through rhythm and melody.
                 </p>
             </div>
+        </div>
+
+        <div class="slide">
+            <img src="ASSETS/images/Awurudu Dramaa.jfif" alt="Drama">
+
+            <div class="card-content">
+                <h3>Drama</h3>
+                <p>
+                    Bringing stories to life through emotion, expression, and performance.
+                </p>
+            </div>
+        </div>
+
+        
+
+        <div class="slide">
+            <img src="ASSETS/images/Awurudu Dance.jpg" alt="Dance">
+
+            <div class="card-content">
+                <h3>Dance</h3>
+                <p>
+                    Expressing creativity through movement, energy, and passion.
+                </p>
+            </div>
+        </div>
+
+        <div class="slide">
+            <img src="ASSETS/images/Visual Art.jpg" alt="Visual Arts">
+
+            <div class="card-content">
+                <h3>Visual Arts</h3>
+                <p>
+                    From colors to concepts, we turn imagination into masterpieces.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="slider-controls">
+        <button class="prev-btn">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+
+        <button class="next-btn">
+            <i class="fas fa-arrow-right"></i>
+        </button>
+    </div>
+
         </div>
 
     </div>

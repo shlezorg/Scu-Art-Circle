@@ -10,7 +10,7 @@
 
 body {
     background: #e8e8e8;
-    padding: 10px;
+    padding: 8px;
     min-height: 100vh;
 }
 
@@ -307,7 +307,8 @@ nav a:hover, nav a.active, .nav-link-alt:hover {
 }
 
 .social-links {
-    display: ;
+    display: flex;
+    flex-direction: column;
     gap: 12px;
 }
 
