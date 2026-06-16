@@ -1,0 +1,42 @@
+.join-section {
+    background: linear-gradient(135deg, rgba(17, 17, 17, 0.9) 0%, rgba(29, 29, 29, 0.95) 100%),
+                url('../../ASSETS/images/join-bg.png') no-repeat center center;
+    background-size: cover;
+    border-radius: var(--radius-lg);
+    margin: 80px 5%;
+    padding: 100px 5%;
+    border-radius: 40px 40px 40px 40px;
+    margin-top: 10px;
+}
+
+.join-content {
+    max-width: 700px;
+    margin: auto;
+    text-align: center;
+    color: white;
+}
+
+.join-content h2 {
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    margin: 20px 0;
+}
+
+.join-content h2 span {
+    color: var(--primary);
+    padding: 100px 5%;
+    border-radius: 40px 40px 40px 40px;
+    margin-top: 10px;
+}
+
+.join-content p {
+    color: rgba(255,255,255,0.75);
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+.join-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}

@@ -1,0 +1,90 @@
+.faq-section {
+    background: var(--light);
+    padding: 120px 8%;
+    border-radius: 40px;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.faq-item {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    overflow: hidden;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+}
+
+.faq-question {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    outline: none;
+}
+
+.faq-question span:first-child {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--dark);
+    font-family: var(--font-editorial);
+    transition: color 0.3s ease;
+}
+
+.faq-item:hover .faq-question span:first-child {
+    color: var(--primary);
+}
+
+.faq-icon {
+    font-size: 1.1rem;
+    color: var(--primary);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 0 40px;
+}
+
+.faq-answer p {
+    color: var(--text);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+}
+
+/* Active Open Accordion State (applied via JS) */
+.faq-item.active .faq-icon {
+    transform: rotate(45deg); /* Rotates '+' into a '×' */
+}
+
+.faq-item.active {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
+    border-color: rgba(214, 176, 98, 0.15);
+}
