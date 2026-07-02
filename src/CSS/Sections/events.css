@@ -1,0 +1,196 @@
+.events {
+    background: linear-gradient(180deg, rgba(8, 8, 8, 0.82) 0%, rgba(8, 8, 8, 0.90) 100%), url('../../ASSETS/images/events-bg.png') no-repeat center center;
+    background-size: cover;
+    padding: 120px 8%;
+    border-radius: 40px;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+    color: white;
+}
+
+/* Volumetric Studio Glow Circles */
+.volumetric-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.25;
+    mix-blend-mode: screen;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, var(--primary) 0%, transparent 70%);
+}
+
+.blob-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--gold-glow) 0%, transparent 80%);
+}
+
+.events .section-header {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 70px;
+}
+
+.events .section-header h2 {
+    color: white;
+}
+
+.events .section-header .section-tag {
+    color: var(--primary);
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Spotlight Reflection Hover Container */
+.event-card {
+    background: rgba(18, 18, 18, 0.45);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: var(--radius-lg);
+    position: relative;
+    padding: 3px;
+    /* for the spotlight gradient outer border */
+    overflow: hidden;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.4s ease;
+    cursor: pointer;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+/* Mouse-tracking border glow using JS coordinates */
+.event-card-border-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: radial-gradient(350px circle at var(--mouse-x, 0) var(--mouse-y, 0),
+            rgba(214, 176, 98, 0.3) 0%,
+            rgba(255, 255, 255, 0.03) 50%,
+            transparent 100%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.event-card-content {
+    background: rgba(12, 12, 12, 0.75);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: calc(var(--radius-lg) - 2px);
+    padding: 40px 35px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 2;
+    position: relative;
+}
+
+.event-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px rgba(214, 176, 98, 0.08);
+    border-color: rgba(214, 176, 98, 0.4);
+}
+
+.event-date {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--gold-tint);
+    border: 1px solid rgba(214, 176, 98, 0.25);
+    color: var(--primary);
+    padding: 8px 20px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    letter-spacing: 1.5px;
+    margin-bottom: 30px;
+    font-family: var(--font-editorial);
+    transition: var(--transition);
+}
+
+.event-card:hover .event-date {
+    background: var(--primary);
+    color: black;
+    box-shadow: 0 0 15px rgba(214, 176, 98, 0.3);
+    border-color: var(--primary);
+}
+
+.event-card h3 {
+    margin-bottom: 15px;
+    font-size: 1.85rem;
+    color: white;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+    transition: var(--transition);
+}
+
+.event-card:hover h3 {
+    color: var(--primary);
+}
+
+.event-card p {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 35px;
+    line-height: 1.7;
+    font-size: 0.95rem;
+    flex-grow: 1;
+}
+
+.event-card .event-details-trigger {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-editorial);
+    letter-spacing: 0.5px;
+    transition: var(--transition);
+}
+
+.event-card .event-details-trigger i {
+    font-size: 0.8rem;
+    transition: transform 0.3s ease;
+}
+
+.event-card:hover .event-details-trigger {
+    color: white;
+}
+
+.event-card:hover .event-details-trigger i {
+    transform: translateX(5px);
+}
+
+/* Mobile Responsiveness for Events */
+@media (max-width: 768px) {
+    .events {
+        padding: 80px 5%;
+        border-radius: 30px;
+    }
+
+    .event-card-content {
+        padding: 30px 25px;
+    }
+}

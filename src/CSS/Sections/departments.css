@@ -1,0 +1,208 @@
+.departments {
+    position: relative;
+    overflow: hidden;
+
+    padding: 100px 5%;
+    margin-top: 10px;
+    border-radius: 40px;
+
+    /* Base dark color fallback matching the Hero background */
+    background: #0b0b0b;
+
+    /* Prevent affecting other sections */
+    isolation: isolate;
+}
+
+/* Background image with opacity matching the user request */
+.departments::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: url("../../ASSETS/images/Colorful Aesthetic Minimalist Sky and Cloud Photo Collage Desktop Wallpaper.svg") center/cover no-repeat;
+
+    /* Low opacity to blend with the dark background and keep content legible */
+    opacity: 0.65;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* Dark gradient overlay to anchor cards and ensure legibility, matching Hero overlay styling */
+.departments::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(135deg,
+            rgba(17, 17, 17, 0.85) 0%,
+            rgba(26, 26, 26, 0.5) 100%);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Ensure section header colors work on dark background */
+.departments .section-header h2 {
+    color: var(--white);
+}
+
+.departments .section-header p {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* ALL CONTENT RELATIVE TO SECTION */
+.section-header,
+.department-grid {
+    position: relative;
+    z-index: 2;
+}
+
+/* GRID */
+.department-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+}
+
+/* CARD DESIGN - Matching the premium glassmorphism of the Hero's cards */
+.department-card {
+    position: relative;
+
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 30px;
+
+    padding: 50px 35px;
+    text-align: center;
+
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+}
+
+/* Ensure card content sits above background overlays */
+.department-card .icon-box,
+.department-card h3,
+.department-card p {
+    position: relative;
+    z-index: 2;
+}
+
+/* CARD HOVER EFFECT - Subtle gold gradient glow from top right */
+.department-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: radial-gradient(circle at top right,
+            rgba(214, 176, 98, 0.12),
+            transparent 70%);
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.department-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(214, 176, 98, 0.35);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+}
+
+.department-card:hover::before {
+    opacity: 1;
+}
+
+/* ICON BOX - Hollow gold outline, matching Hero buttons & about styles */
+.icon-box {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 25px;
+
+    border-radius: 24px;
+    background: rgba(214, 176, 98, 0.08);
+    border: 1px solid rgba(214, 176, 98, 0.25);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.icon-box i {
+    font-size: 2rem;
+    color: #d6b062;
+    transition: color 0.4s ease;
+}
+
+/* ICON BOX HOVER - Solid primary gold fill with rotation */
+.department-card:hover .icon-box {
+    background: #d6b062;
+    border-color: #d6b062;
+    box-shadow: 0 12px 25px rgba(214, 176, 98, 0.35);
+    transform: rotate(-8deg) scale(1.08);
+}
+
+.department-card:hover .icon-box i {
+    color: #111111;
+}
+
+/* TEXT */
+.department-card h3 {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.department-card p {
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.8;
+    font-size: 0.95rem;
+    transition: color 0.4s ease;
+}
+
+.department-card:hover p {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* TABLET */
+@media (max-width: 992px) {
+    .departments {
+        padding: 80px 5%;
+    }
+
+    .department-grid {
+        gap: 20px;
+    }
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .departments {
+        border-radius: 30px;
+        padding: 60px 5%;
+    }
+
+    .department-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .department-card {
+        padding: 40px 25px;
+    }
+
+    .icon-box {
+        width: 70px;
+        height: 70px;
+    }
+
+    .icon-box i {
+        font-size: 1.8rem;
+    }
+}

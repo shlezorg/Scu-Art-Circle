@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCU ArtCircle - Admin Dashboard</title>
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="CSS/admin.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Database Module -->
+    <script src="JS/db.js" defer></script>
+    <!-- Admin Logic -->
+    <script src="JS/admin.js" defer></script>
+</head>
+
+<body class="admin-body theme-dark">
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="login-wrapper active">
+        <div class="login-bg-glow"></div>
+        <div class="login-card glass-panel">
+            <div class="login-logo">
+                <img src="ASSETS/logos/logo.jpg" alt="ArtCircle Logo">
+                <span class="logo-main">ArtCircle</span><span class="logo-dot">.</span>
+            </div>
+            <h2>CMS Administration</h2>
+            <p class="login-subtitle">Sign in to manage SCU Art Circle website content</p>
+
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-username">Username</label>
+                    <div class="input-icon-wrapper">
+                        <i class="far fa-user"></i>
+                        <input type="text" id="login-username" required placeholder="e.g. superadmin">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <div class="input-icon-wrapper">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="login-password" required placeholder="••••••••">
+                    </div>
+                </div>
+                <div class="login-options">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="login-remember">
+                        <span class="checkmark"></span>
+                        Remember Me
+                    </label>
+                    <a href="#" id="forgot-password-link" class="login-link">Forgot Password?</a>
+                </div>
+                <button type="submit" class="btn-primary w-full">Sign In</button>
+            </form>
+
+            <div class="demo-accounts">
+                <p><strong>Demo Accounts (password: password123):</strong></p>
+                <ul>
+                    <li><code>superadmin</code> (Super Admin)</li>
+                    <li><code>admin</code> (Admin)</li>
+                    <li><code>editor</code> (Editor)</li>
+                    <li><code>eventmgr</code> (Event Manager)</li>
+                    <li><code>gallerymgr</code> (Gallery Manager)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN ADMIN PANEL LAYOUT (Hidden until authenticated) -->
+    <div id="admin-panel" class="admin-container">
+        <!-- SIDEBAR -->
+        <aside class="admin-sidebar glass-panel">
+            <div class="sidebar-brand">
+                <img src="ASSETS/logos/logo.jpg" alt="ArtCircle Logo" class="brand-img">
+                <div>
+                    <span class="logo-main">ArtCircle</span><span class="logo-dot">.</span>
+                    <span class="brand-tag">CMS Portal</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Main Dashboard</div>
+                <ul>
+                    <li><a href="#" class="nav-tab-btn active" data-tab="dashboard"><i class="fas fa-chart-line"></i>
+                            <span>Dashboard</span></a></li>
+                </ul>
+
+                <div class="nav-section-title">Content Management</div>
+                <ul>
+                    <li><a href="#" class="nav-tab-btn" data-tab="hero"><i class="fas fa-compass"></i> <span>Hero
+                                Section</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="about"><i class="far fa-address-card"></i> <span>About
+                                Us</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="categories"><i class="fas fa-tags"></i> <span>Art
+                                Categories</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="events"><i class="far fa-calendar-alt"></i>
+                            <span>Events</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="gallery"><i class="far fa-image"></i> <span>Gallery
+                                Curator</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="team"><i class="fas fa-users-viewfinder"></i>
+                            <span>Team Directory</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="announcements"><i class="fas fa-bullhorn"></i>
+                            <span>Announcements</span></a></li>
+                </ul>
+
+                <div class="nav-section-title">User & Communication</div>
+                <ul>
+                    <li><a href="#" class="nav-tab-btn" data-tab="memberships"><i class="fas fa-id-card"></i>
+                            <span>Memberships</span> <span class="badge" id="membership-pending-badge">0</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="contact"><i class="far fa-envelope"></i> <span>Contact
+                                Messages</span> <span class="badge badge-warning" id="contact-unread-badge">0</span></a>
+                    </li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="users"><i class="fas fa-user-shield"></i> <span>Users
+                                & Roles</span></a></li>
+                </ul>
+
+                <div class="nav-section-title">System Settings</div>
+                <ul>
+                    <li><a href="#" class="nav-tab-btn" data-tab="settings"><i class="fas fa-sliders"></i> <span>Website
+                                Settings</span></a></li>
+                    <li><a href="#" class="nav-tab-btn" data-tab="logs"><i class="fas fa-history"></i> <span>Activity
+                                Logs</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <a href="index.html" target="_blank" class="btn-secondary w-full text-center sidebar-view-site">
+                    <i class="fas fa-arrow-up-right-from-square"></i> View Website
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="admin-main">
+            <!-- HEADER -->
+            <header class="admin-header glass-panel">
+                <div class="header-left">
+                    <button id="sidebar-toggle" class="header-action-btn"><i class="fas fa-bars"></i></button>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="global-search"
+                            placeholder="Search entries, logs, messages... (Press ⌘K)">
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="header-action-btn" title="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <!-- Role Simulator Selector (For Testing) -->
+                    <div class="role-selector-wrapper">
+                        <label for="role-simulator"><i class="fas fa-mask"></i> Role Simulator:</label>
+                        <select id="role-simulator" class="role-select">
+                            <option value="Super Admin">Super Admin</option>
+                            <option value="Admin">Admin</option>
+                            <option value="Editor">Editor</option>
+                            <option value="Event Manager">Event Manager</option>
+                            <option value="Gallery Manager">Gallery Manager</option>
+                        </select>
+                    </div>
+
+                    <!-- User Profile Dropdown -->
+                    <div class="user-dropdown">
+                        <button class="profile-btn" id="profile-menu-btn">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80"
+                                alt="Avatar" id="user-avatar-img">
+                            <div class="profile-btn-info">
+                                <span class="profile-name" id="user-display-name">Admin User</span>
+                                <span class="profile-role" id="user-display-role">Super Admin</span>
+                            </div>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu glass-panel" id="profile-dropdown-menu">
+                            <a href="#" class="dropdown-item" id="btn-profile-settings"><i
+                                    class="far fa-user-circle"></i> Profile Settings</a>
+                            <a href="#" class="dropdown-item" id="btn-change-password-modal"><i class="fas fa-key"></i>
+                                Change Password</a>
+                            <hr>
+                            <a href="#" class="dropdown-item text-danger" id="logout-btn"><i
+                                    class="fas fa-sign-out-alt"></i> Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- TABS WRAPPER -->
+            <div class="admin-content">
+
+                <!-- 1. DASHBOARD TAB -->
+                <section class="tab-pane active" id="tab-dashboard">
+                    <div class="content-header">
+                        <div>
+                            <h1>Dashboard</h1>
+                            <p class="subtitle">Welcome back! Here's what's happening with SCU Art Circle.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="switchTab('events')"><i class="fas fa-plus"></i> Add
+                                Event</button>
+                        </div>
+                    </div>
+
+                    <!-- Stats Grid -->
+                    <div class="stats-grid">
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-primary"><i class="fas fa-users"></i></div>
+                                <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 12%</span>
+                            </div>
+                            <h2 id="dash-members-count">1,248</h2>
+                            <p>Total Members</p>
+                            <span class="stat-desc">Active in database</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-secondary"><i class="far fa-calendar"></i></div>
+                                <span class="stat-trend trend-up"><i class="fas fa-plus"></i> 2 new</span>
+                            </div>
+                            <h2 id="dash-events-count">8</h2>
+                            <p>Upcoming Events</p>
+                            <span class="stat-desc">Active calendar events</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-success"><i class="far fa-images"></i></div>
+                                <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 18 new</span>
+                            </div>
+                            <h2 id="dash-gallery-count">356</h2>
+                            <p>Gallery Items</p>
+                            <span class="stat-desc">Photos & videos curated</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-info"><i class="fas fa-users-viewfinder"></i></div>
+                                <span class="stat-trend text-muted">No change</span>
+                            </div>
+                            <h2 id="dash-team-count">24</h2>
+                            <p>Team Members</p>
+                            <span class="stat-desc">Committee & coordinators</span>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid mt-4">
+                        <div class="stat-card glass-panel border-warning">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-warning"><i class="far fa-comment"></i></div>
+                                <span class="stat-trend text-warning" id="dash-unread-text">3 unread</span>
+                            </div>
+                            <h2 id="dash-messages-count">12</h2>
+                            <p>Messages</p>
+                            <span class="stat-desc">Total feedback inbox submissions</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-purple"><i class="fas fa-user-plus"></i></div>
+                                <span class="stat-trend text-purple" id="dash-pending-membership-text">5 pending</span>
+                            </div>
+                            <h2 id="dash-membership-requests-count">15</h2>
+                            <p>Membership Requests</p>
+                            <span class="stat-desc">Applications awaiting approval</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-blue"><i class="fas fa-globe"></i></div>
+                                <span class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 23%</span>
+                            </div>
+                            <h2 id="dash-visitors-count">3,487</h2>
+                            <p>Website Visitors</p>
+                            <span class="stat-desc">Total traffic this month</span>
+                        </div>
+                        <div class="stat-card glass-panel">
+                            <div class="stat-header">
+                                <div class="stat-icon icon-danger"><i class="fas fa-bullhorn"></i></div>
+                                <span class="stat-trend text-danger">2 active</span>
+                            </div>
+                            <h2 id="dash-announcements-count">4</h2>
+                            <p>Announcements</p>
+                            <span class="stat-desc">Published notices</span>
+                        </div>
+                    </div>
+
+                    <!-- Charts and Sidebar Section -->
+                    <div class="dashboard-grid mt-6">
+                        <!-- Chart Column -->
+                        <div class="dash-left glass-panel">
+                            <div class="panel-header">
+                                <h3>Visitors & Registrations</h3>
+                                <div class="panel-actions">
+                                    <select class="form-control form-control-sm" id="chart-timeframe">
+                                        <option>This Month</option>
+                                        <option>Last 3 Months</option>
+                                        <option>This Year</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="visitorsChart"></canvas>
+                            </div>
+                            <div class="chart-container mt-6">
+                                <canvas id="growthChart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar column -->
+                        <div class="dash-right">
+                            <!-- Calendar panel -->
+                            <div class="glass-panel calendar-panel">
+                                <div class="panel-header">
+                                    <h3>Event Calendar</h3>
+                                    <div class="calendar-nav">
+                                        <button class="cal-nav-btn"><i class="fas fa-chevron-left"></i></button>
+                                        <span id="calendar-month-year">July 2026</span>
+                                        <button class="cal-nav-btn"><i class="fas fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                                <div class="calendar-widget" id="dashboard-calendar">
+                                    <!-- Dynamic Calendar -->
+                                </div>
+                                <div class="calendar-events mt-4" id="calendar-events-list">
+                                    <!-- Dynamic events listed -->
+                                </div>
+                            </div>
+
+                            <!-- Quick Actions -->
+                            <div class="glass-panel mt-6">
+                                <h3>Quick Actions</h3>
+                                <div class="quick-actions-grid mt-4">
+                                    <button class="quick-action-btn" onclick="openEventModal()"><i
+                                            class="fas fa-plus"></i><span>Add Event</span></button>
+                                    <button class="quick-action-btn" onclick="openGalleryModal()"><i
+                                            class="fas fa-cloud-arrow-up"></i><span>Upload Image</span></button>
+                                    <button class="quick-action-btn" onclick="openTeamModal()"><i
+                                            class="fas fa-user-plus"></i><span>Add Member</span></button>
+                                    <button class="quick-action-btn" onclick="openAnnouncementModal()"><i
+                                            class="fas fa-bullhorn"></i><span>New Notice</span></button>
+                                </div>
+                            </div>
+
+                            <!-- System Status -->
+                            <div class="glass-panel mt-6">
+                                <h3>System Status</h3>
+                                <ul class="system-status-list mt-4">
+                                    <li>
+                                        <span class="status-name"><i class="fas fa-circle-dot text-success"></i> Website
+                                            Status</span>
+                                        <span class="status-value text-success" id="status-web">Online</span>
+                                    </li>
+                                    <li>
+                                        <span class="status-name"><i class="fas fa-server text-success"></i> Database
+                                            (LocalStorage)</span>
+                                        <span class="status-value text-success">Healthy</span>
+                                    </li>
+                                    <li>
+                                        <span class="status-name"><i class="fas fa-hdd text-warning"></i> Local Storage
+                                            Usage</span>
+                                        <span class="status-value text-warning" id="status-storage">2% Used</span>
+                                    </li>
+                                    <li>
+                                        <span class="status-name"><i class="fas fa-shield-halved text-success"></i> SSL
+                                            Certificate</span>
+                                        <span class="status-value text-success">Valid</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent items -->
+                    <div class="dashboard-grid mt-6">
+                        <div class="glass-panel">
+                            <h3>Recent Activities</h3>
+                            <div class="activity-logs-compact mt-4" id="dashboard-activities">
+                                <!-- Dynamic compact log list -->
+                            </div>
+                        </div>
+
+                        <div class="glass-panel">
+                            <div class="panel-header">
+                                <h3>Latest Memberships</h3>
+                                <a href="#" onclick="switchTab('memberships')" class="link-gold">View all</a>
+                            </div>
+                            <div class="latest-memberships-compact mt-4" id="dashboard-memberships">
+                                <!-- Dynamic memberships -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 2. HERO SECTION TAB -->
+                <section class="tab-pane" id="tab-hero">
+                    <div class="content-header">
+                        <div>
+                            <h1>Hero Section Management</h1>
+                            <p class="subtitle">Modify visual media, titles, buttons, and links of the homepage top
+                                area.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button type="submit" form="hero-management-form" class="btn-primary"><i
+                                    class="fas fa-save"></i> Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <form id="hero-management-form" class="admin-form">
+                            <div class="form-grid">
+                                <div class="form-group span-2">
+                                    <label for="hero-title">Main Heading Title</label>
+                                    <input type="text" id="hero-title" required placeholder="Where Creativity">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-title-highlight">Highlighted Text</label>
+                                    <input type="text" id="hero-title-highlight" required placeholder="Stage.">
+                                </div>
+                                <div class="form-group span-3">
+                                    <label for="hero-desc">Hero Description Paragraph</label>
+                                    <textarea id="hero-desc" required placeholder="From soulful melodies..."></textarea>
+                                </div>
+
+                                <div class="form-group span-2">
+                                    <label for="hero-video">Background Video URL (WEBM)</label>
+                                    <input type="text" id="hero-video" placeholder="ASSETS/videos/HeroVideo.webm">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-video-mov">Background Video URL (MOV - Safari Fallback)</label>
+                                    <input type="text" id="hero-video-mov" placeholder="ASSETS/videos/HeroVideo.mov">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hero-btn-primary">Primary Button Text</label>
+                                    <input type="text" id="hero-btn-primary" placeholder="Upcoming Events">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-btn-primary-link">Primary Button Link</label>
+                                    <input type="text" id="hero-btn-primary-link" placeholder="#events">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-btn-secondary">Secondary Button Text</label>
+                                    <input type="text" id="hero-btn-secondary" placeholder="Explore Gallery">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-btn-secondary-link">Secondary Button Link</label>
+                                    <input type="text" id="hero-btn-secondary-link" placeholder="#gallery">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="hero-fb">Facebook Link</label>
+                                    <input type="text" id="hero-fb" placeholder="#">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-ig">Instagram Link</label>
+                                    <input type="text" id="hero-ig" placeholder="#">
+                                </div>
+                                <div class="form-group">
+                                    <label for="hero-tt">TikTok Link</label>
+                                    <input type="text" id="hero-tt" placeholder="#">
+                                </div>
+
+                                <div class="form-group span-3">
+                                    <label for="hero-avatar-desc">Avatars Community Text</label>
+                                    <input type="text" id="hero-avatar-desc" placeholder="A creative community...">
+                                </div>
+
+                                <div class="form-group span-3">
+                                    <h3>Visibility Toggles</h3>
+                                    <div class="toggle-grid mt-2">
+                                        <label class="toggle-container">
+                                            <input type="checkbox" id="toggle-hero-logo">
+                                            <span class="toggle-slider"></span>
+                                            Show Logo Notch
+                                        </label>
+                                        <label class="toggle-container">
+                                            <input type="checkbox" id="toggle-hero-avatars">
+                                            <span class="toggle-slider"></span>
+                                            Show Community Avatars
+                                        </label>
+                                        <label class="toggle-container">
+                                            <input type="checkbox" id="toggle-hero-socials">
+                                            <span class="toggle-slider"></span>
+                                            Show Social Floating Icons
+                                        </label>
+                                        <label class="toggle-container">
+                                            <input type="checkbox" id="toggle-hero-upcoming">
+                                            <span class="toggle-slider"></span>
+                                            Show Floating Upcoming Event Card
+                                        </label>
+                                        <label class="toggle-container">
+                                            <input type="checkbox" id="toggle-hero-join">
+                                            <span class="toggle-slider"></span>
+                                            Show Floating Join Card
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+
+                <!-- 3. ABOUT US TAB -->
+                <section class="tab-pane" id="tab-about">
+                    <div class="content-header">
+                        <div>
+                            <h1>About Us Section Management</h1>
+                            <p class="subtitle">Modify descriptions, mission, vision, statistics and showcase features.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <button type="submit" form="about-management-form" class="btn-primary"><i
+                                    class="fas fa-save"></i> Save Changes</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <form id="about-management-form" class="admin-form">
+                            <h3>Main Narrative</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="about-tag">Section Tag</label>
+                                    <input type="text" id="about-tag" placeholder="OUR STORY">
+                                </div>
+                                <div class="form-group span-2">
+                                    <label for="about-heading">Main Heading</label>
+                                    <input type="text" id="about-heading" placeholder="Built on Creativity...">
+                                </div>
+                                <div class="form-group span-3">
+                                    <label for="about-description">Main Description Narrative</label>
+                                    <textarea id="about-description" rows="4"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="about-large-card-img">Large Showcase Image</label>
+                                    <input type="text" id="about-large-card-img"
+                                        placeholder="ASSETS/images/Singers.svg">
+                                </div>
+                                <div class="form-group">
+                                    <label for="about-large-card-overlay">Large Card Overlay Text</label>
+                                    <input type="text" id="about-large-card-overlay"
+                                        placeholder="Dance. Express. Inspire.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="about-large-card-link">Large Card Details Link</label>
+                                    <input type="text" id="about-large-card-link" placeholder="#">
+                                </div>
+                            </div>
+
+                            <hr class="form-divider">
+
+                            <h3>Mission, Vision & Assets</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="about-mission-tag">Mission Section Tag</label>
+                                    <input type="text" id="about-mission-tag" placeholder="OUR MISSION">
+                                </div>
+                                <div class="form-group span-2">
+                                    <label for="about-mission-heading">Mission Heading</label>
+                                    <input type="text" id="about-mission-heading" placeholder="Empowering Artists...">
+                                </div>
+                                <div class="form-group span-3">
+                                    <label for="about-mission-description">Mission Statement Description</label>
+                                    <textarea id="about-mission-description" rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="about-mission-logo">Mission Brand Icon/Logo URL</label>
+                                    <input type="text" id="about-mission-logo"
+                                        placeholder="ASSETS/logos/Art circle logo.PNG">
+                                </div>
+                                <div class="form-group span-2">
+                                    <label for="about-mission-community-img">Community Group Photo URL</label>
+                                    <input type="text" id="about-mission-community-img"
+                                        placeholder="ASSETS/images/Community.JPG">
+                                </div>
+                            </div>
+
+                            <hr class="form-divider">
+
+                            <h3>Statistics Cards</h3>
+                            <div id="about-stats-container">
+                                <!-- Dynamic Stats Inputs -->
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
+
+                <!-- 4. ART CATEGORIES TAB -->
+                <section class="tab-pane" id="tab-categories">
+                    <div class="content-header">
+                        <div>
+                            <h1>Art Categories Management</h1>
+                            <p class="subtitle">Enable/disable, edit text and reorder homepage categories cards.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openCategoryModal()"><i class="fas fa-plus"></i> Add
+                                Category</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="table-wrapper">
+                            <table class="admin-table" id="categories-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Icon</th>
+                                        <th>Category ID</th>
+                                        <th>Title</th>
+                                        <th>Description</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="categories-tbody">
+                                    <!-- Dynamic categories -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 5. EVENTS TAB -->
+                <section class="tab-pane" id="tab-events">
+                    <div class="content-header">
+                        <div>
+                            <h1>Events Management</h1>
+                            <p class="subtitle">Create, duplicate, schedule, or archive live stage performances.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openEventModal()"><i class="fas fa-plus"></i> Create
+                                Event</button>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filter Panel -->
+                    <div class="search-filter-panel glass-panel">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="event-search-input">Search Events</label>
+                                <input type="text" id="event-search-input" placeholder="Search by title, location...">
+                            </div>
+                            <div class="form-group">
+                                <label for="event-filter-category">Filter Category</label>
+                                <select id="event-filter-category">
+                                    <option value="all">All Categories</option>
+                                    <!-- Dynamic -->
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-filter-status">Filter Status</label>
+                                <select id="event-filter-status">
+                                    <option value="all">All Statuses</option>
+                                    <option value="published">Published</option>
+                                    <option value="scheduled">Scheduled</option>
+                                    <option value="draft">Draft</option>
+                                    <option value="archived">Archived</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel mt-4">
+                        <div class="table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Banner</th>
+                                        <th>Title</th>
+                                        <th>Category</th>
+                                        <th>Date & Time</th>
+                                        <th>Venue</th>
+                                        <th>Participants</th>
+                                        <th>Featured</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="events-tbody">
+                                    <!-- Dynamic Events List -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 6. GALLERY TAB -->
+                <section class="tab-pane" id="tab-gallery">
+                    <div class="content-header">
+                        <div>
+                            <h1>Gallery Curator</h1>
+                            <p class="subtitle">Drag & drop files, organize media folders, edit metadata and set
+                                featured grids.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openGalleryModal()"><i
+                                    class="fas fa-cloud-arrow-up"></i> Upload Media</button>
+                        </div>
+                    </div>
+
+                    <!-- Uploader Dropzone -->
+                    <div class="glass-panel drag-drop-panel" id="gallery-dropzone">
+                        <i class="fas fa-cloud-arrow-up drop-icon"></i>
+                        <h3>Drag and Drop Media here</h3>
+                        <p>Supports JPG, PNG, GIF, WEBP and MP4 Video formats. Max file size: 2MB.</p>
+                        <p class="drop-or">or</p>
+                        <button class="btn-secondary"
+                            onclick="document.getElementById('gallery-file-input').click()">Browse Files</button>
+                        <input type="file" id="gallery-file-input" multiple accept="image/*,video/*" class="hidden">
+                    </div>
+
+                    <!-- Search and Gallery Filters -->
+                    <div class="search-filter-panel glass-panel mt-4">
+                        <div class="gallery-curator-filter">
+                            <div class="curator-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="gallery-search-input" placeholder="Search caption, title...">
+                            </div>
+                            <div class="curator-filters">
+                                <button class="filter-tab-btn active" data-filter="all">All</button>
+                                <button class="filter-tab-btn" data-filter="music">Music</button>
+                                <button class="filter-tab-btn" data-filter="dance">Dance</button>
+                                <button class="filter-tab-btn" data-filter="drama">Drama</button>
+                                <button class="filter-tab-btn" data-filter="visual">Visual Arts</button>
+                                <button class="filter-tab-btn" data-filter="featured"><i
+                                        class="fas fa-star text-gold"></i> Featured</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Gallery Grid -->
+                    <div class="gallery-curator-grid mt-4" id="curator-gallery-grid">
+                        <!-- Dynamic Media Cards -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="pagination-wrapper mt-6" id="gallery-pagination">
+                        <!-- Dynamic page buttons -->
+                    </div>
+                </section>
+
+
+                <!-- 7. TEAM DIRECTORY TAB -->
+                <section class="tab-pane" id="tab-team">
+                    <div class="content-header">
+                        <div>
+                            <h1>Team & Committee Directory</h1>
+                            <p class="subtitle">Manage executive members, positions, bios, contact links, and layouts.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openTeamModal()"><i class="fas fa-user-plus"></i> Add
+                                Member</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Photo</th>
+                                        <th>Name</th>
+                                        <th>Position</th>
+                                        <th>Email & Phone</th>
+                                        <th>Socials</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="team-tbody">
+                                    <!-- Dynamic Committee List -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 8. ANNOUNCEMENTS TAB -->
+                <section class="tab-pane" id="tab-announcements">
+                    <div class="content-header">
+                        <div>
+                            <h1>Announcements Manager</h1>
+                            <p class="subtitle">Broadcast urgent notices, event tickets releases, and pin articles to
+                                homepage.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openAnnouncementModal()"><i class="fas fa-plus"></i>
+                                Add Announcement</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Banner</th>
+                                        <th>Title</th>
+                                        <th>Publish Date</th>
+                                        <th>Expiry Date</th>
+                                        <th>Pinned</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="announcements-tbody">
+                                    <!-- Dynamic announcements -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 9. MEMBERSHIPS TAB -->
+                <section class="tab-pane" id="tab-memberships">
+                    <div class="content-header">
+                        <div>
+                            <h1>Membership Submissions</h1>
+                            <p class="subtitle">Review applications, filter applicants, update status, and export lists.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-secondary" id="btn-export-members-csv"><i class="fas fa-file-csv"></i>
+                                Export CSV</button>
+                            <button class="btn-secondary" id="btn-export-members-pdf"><i class="fas fa-file-pdf"></i>
+                                Print PDF</button>
+                        </div>
+                    </div>
+
+                    <!-- Search and Filters -->
+                    <div class="search-filter-panel glass-panel">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="member-search-input">Search Applicants</label>
+                                <input type="text" id="member-search-input" placeholder="Search by name, email, bio...">
+                            </div>
+                            <div class="form-group">
+                                <label for="member-filter-category">Artistic Area</label>
+                                <select id="member-filter-category">
+                                    <option value="all">All Areas</option>
+                                    <option value="music">Music</option>
+                                    <option value="dance">Dance</option>
+                                    <option value="drama">Drama</option>
+                                    <option value="visual">Visual Arts</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="member-filter-status">Filter Status</label>
+                                <select id="member-filter-status">
+                                    <option value="all">All Statuses</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                    <option value="rejected">Rejected</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Membership stats -->
+                    <div class="membership-analytics-row mt-4">
+                        <div class="glass-panel analytics-compact-card">
+                            <span>Approved Members</span>
+                            <h3 id="membership-stat-approved">0</h3>
+                        </div>
+                        <div class="glass-panel analytics-compact-card">
+                            <span>Pending Reviews</span>
+                            <h3 id="membership-stat-pending" class="text-warning">0</h3>
+                        </div>
+                        <div class="glass-panel analytics-compact-card">
+                            <span>Total Applied</span>
+                            <h3 id="membership-stat-total">0</h3>
+                        </div>
+                    </div>
+
+                    <!-- Submissions Table -->
+                    <div class="glass-panel mt-4">
+                        <div class="table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date Submitted</th>
+                                        <th>Applicant Name</th>
+                                        <th>Contact Email</th>
+                                        <th>Category</th>
+                                        <th>Submitted Year</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="memberships-tbody">
+                                    <!-- Dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 10. CONTACT MESSAGES TAB -->
+                <section class="tab-pane" id="tab-contact">
+                    <div class="content-header">
+                        <div>
+                            <h1>Contact Messages</h1>
+                            <p class="subtitle">Read feedback queries, contact form submissions, and send replies.</p>
+                        </div>
+                    </div>
+
+                    <div class="messages-inbox-layout">
+                        <!-- Message List -->
+                        <div class="messages-sidebar glass-panel">
+                            <div class="messages-search">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="contact-search-input" placeholder="Search sender, message...">
+                            </div>
+                            <ul class="message-list-items" id="contact-messages-list">
+                                <!-- Dynamic items -->
+                            </ul>
+                        </div>
+
+                        <!-- Message Viewer -->
+                        <div class="messages-content-view glass-panel" id="contact-message-viewer">
+                            <!-- Selected Message Details dynamic -->
+                            <div class="no-message-selected">
+                                <i class="far fa-envelope-open"></i>
+                                <p>Select a message from the inbox to read and reply.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 11. USERS & ROLES TAB -->
+                <section class="tab-pane" id="tab-users">
+                    <div class="content-header">
+                        <div>
+                            <h1>Users & Roles Control</h1>
+                            <p class="subtitle">Create administrator logins and define role permissions configurations.
+                            </p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" onclick="openUserModal()"><i class="fas fa-user-plus"></i> Add
+                                Account</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="glass-panel span-2">
+                            <h3>Administrators Directory</h3>
+                            <div class="table-wrapper mt-4">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>User Avatar</th>
+                                            <th>Username</th>
+                                            <th>Full Name</th>
+                                            <th>Email Address</th>
+                                            <th>Assigned Role</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="users-tbody">
+                                        <!-- Dynamic -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="glass-panel">
+                            <h3>Role Permissions Matrix</h3>
+                            <div class="permissions-matrix mt-4">
+                                <div class="matrix-item">
+                                    <strong>Super Admin:</strong>
+                                    <p>Full read/write/delete capabilities across all CMS features, user settings,
+                                        database management, and backups.</p>
+                                </div>
+                                <div class="matrix-item">
+                                    <strong>Admin:</strong>
+                                    <p>Can update all site content and review submissions. Restricted from modifying
+                                        system settings, other user roles, or backups.</p>
+                                </div>
+                                <div class="matrix-item">
+                                    <strong>Editor:</strong>
+                                    <p>Can modify static text sections (Hero, About Us), categories, gallery media, and
+                                        announcements. Cannot view inbox messages, memberships, or events.</p>
+                                </div>
+                                <div class="matrix-item">
+                                    <strong>Event Manager:</strong>
+                                    <p>Has full CRUD control over events, upcoming cards, categories, and calendar
+                                        listings. Cannot edit team members or view messages.</p>
+                                </div>
+                                <div class="matrix-item">
+                                    <strong>Gallery Manager:</strong>
+                                    <p>Can upload, remove, filter, and curate images/videos in the gallery grid.
+                                        Restrained from editing text or schedules.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 12. SETTINGS TAB -->
+                <section class="tab-pane" id="tab-settings">
+                    <div class="content-header">
+                        <div>
+                            <h1>Website Settings</h1>
+                            <p class="subtitle">Global variables, maintenance mode, logo configuration and system
+                                backups.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-primary" id="save-settings-btn"><i class="fas fa-save"></i> Save
+                                Settings</button>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-grid">
+                        <div class="glass-panel">
+                            <h3>General Configuration</h3>
+                            <form class="admin-form mt-4" id="general-settings-form">
+                                <div class="form-group">
+                                    <label for="settings-site-name">Website Title/Brand Name</label>
+                                    <input type="text" id="settings-site-name" placeholder="SCU ArtCircle">
+                                </div>
+                                <div class="form-group">
+                                    <label for="settings-logo-url">Header Brand Logo URL</label>
+                                    <input type="text" id="settings-logo-url" placeholder="ASSETS/logos/logo.jpg">
+                                </div>
+                                <div class="form-group">
+                                    <label class="toggle-container">
+                                        <input type="checkbox" id="settings-maintenance">
+                                        <span class="toggle-slider"></span>
+                                        Enable Maintenance Mode
+                                    </label>
+                                    <span class="form-help-text">Shows a "Be Back Soon" message on the public
+                                        homepage.</span>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="glass-panel">
+                            <h3>Database Backup & Restore</h3>
+                            <p class="mb-4">Export or import the full database state as a portable JSON file.</p>
+                            <div class="backup-actions">
+                                <button class="btn-secondary w-full" id="btn-export-backup"><i
+                                        class="fas fa-file-export"></i> Export JSON Backup</button>
+                                <button class="btn-secondary w-full mt-2"
+                                    onclick="document.getElementById('backup-file-input').click()"><i
+                                        class="fas fa-file-import"></i> Restore Backup File</button>
+                                <input type="file" id="backup-file-input" accept=".json" class="hidden">
+                                <hr class="form-divider">
+                                <button class="btn-secondary btn-danger w-full mt-2" id="btn-reset-db"><i
+                                        class="fas fa-triangle-exclamation"></i> Reset to Factory Defaults</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <!-- 13. ACTIVITY LOGS TAB -->
+                <section class="tab-pane" id="tab-logs">
+                    <div class="content-header">
+                        <div>
+                            <h1>Activity Logs</h1>
+                            <p class="subtitle">A full audit log of all system changes, content revisions, and login
+                                sessions.</p>
+                        </div>
+                        <div class="header-actions">
+                            <button class="btn-secondary btn-danger" id="clear-logs-btn"><i
+                                    class="far fa-trash-can"></i> Clear Logs</button>
+                        </div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="logs-filter-row mb-4">
+                            <input type="text" id="logs-search" class="form-control"
+                                placeholder="Search by administrator name, actions...">
+                        </div>
+                        <div class="table-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>Timestamp</th>
+                                        <th>Administrator</th>
+                                        <th>Assigned Role</th>
+                                        <th>Performed Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="logs-tbody">
+                                    <!-- Dynamic -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- GLOBAL DIALOGS & MODALS -->
+    <div class="modal-backdrop" id="admin-modal-backdrop"></div>
+
+    <!-- 1. CATEGORY MODAL -->
+    <div class="admin-modal glass-panel" id="modal-category">
+        <div class="modal-header">
+            <h3 id="category-modal-title">Edit Category</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('category')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <form id="category-modal-form" class="modal-form">
+            <input type="hidden" id="cat-field-id">
+            <div class="form-group">
+                <label for="cat-field-title">Category Title</label>
+                <input type="text" id="cat-field-title" required placeholder="e.g. Literature">
+            </div>
+            <div class="form-group">
+                <label for="cat-field-icon">FontAwesome Icon Class</label>
+                <input type="text" id="cat-field-icon" required placeholder="fas fa-pen-nib">
+            </div>
+            <div class="form-group">
+                <label for="cat-field-desc">Description</label>
+                <textarea id="cat-field-desc" required placeholder="Short summary of the category..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="cat-field-order">Display Order</label>
+                <input type="number" id="cat-field-order" required value="1">
+            </div>
+            <div class="form-group">
+                <label class="toggle-container">
+                    <input type="checkbox" id="cat-field-enabled" checked>
+                    <span class="toggle-slider"></span>
+                    Enable Category
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('category')">Cancel</button>
+                <button type="submit" class="btn-primary">Save Category</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 2. EVENT MODAL -->
+    <div class="admin-modal glass-panel modal-lg" id="modal-event">
+        <div class="modal-header">
+            <h3 id="event-modal-title">Create Performance Event</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('event')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <form id="event-modal-form" class="modal-form">
+            <input type="hidden" id="event-field-id">
+            <div class="form-grid">
+                <div class="form-group span-2">
+                    <label for="event-field-title">Event Title</label>
+                    <input type="text" id="event-field-title" required placeholder="e.g. Swara 2026">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-category">Art Category</label>
+                    <select id="event-field-category" required>
+                        <!-- Dynamic -->
+                    </select>
+                </div>
+                <div class="form-group span-3">
+                    <label for="event-field-desc">Description Details</label>
+                    <textarea id="event-field-desc" required rows="4"
+                        placeholder="Brief outline of the performance..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="event-field-banner">Banner Image URL</label>
+                    <input type="text" id="event-field-banner" placeholder="ASSETS/images/Singers.svg">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-venue">Venue Location</label>
+                    <input type="text" id="event-field-venue" required placeholder="Main Auditorium">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-date">Event Date</label>
+                    <input type="date" id="event-field-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-field-time">Start Time</label>
+                    <input type="time" id="event-field-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="event-field-organizer">Organizer/Department</label>
+                    <input type="text" id="event-field-organizer" placeholder="Music Dept">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-artists">Guest Artists (comma separated)</label>
+                    <input type="text" id="event-field-artists" placeholder="e.g. Nadeemal, Bathiya">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-max">Maximum Participants</label>
+                    <input type="number" id="event-field-max" value="500">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-link">RSVP/Ticket Registration Link</label>
+                    <input type="text" id="event-field-link" value="#">
+                </div>
+                <div class="form-group">
+                    <label for="event-field-status">Publish Status</label>
+                    <select id="event-field-status" required>
+                        <option value="published">Published (Live)</option>
+                        <option value="scheduled">Scheduled</option>
+                        <option value="draft">Draft</option>
+                        <option value="archived">Archived</option>
+                    </select>
+                </div>
+                <div class="form-group span-3 toggle-row">
+                    <label class="toggle-container">
+                        <input type="checkbox" id="event-field-featured">
+                        <span class="toggle-slider"></span>
+                        Featured Event (Highlights on Homepage)
+                    </label>
+                    <label class="toggle-container">
+                        <input type="checkbox" id="event-field-timer">
+                        <span class="toggle-slider"></span>
+                        Enable Countdown Timer
+                    </label>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('event')">Cancel</button>
+                <button type="submit" class="btn-primary">Save Event</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 3. GALLERY ITEM MODAL -->
+    <div class="admin-modal glass-panel" id="modal-gallery">
+        <div class="modal-header">
+            <h3 id="gallery-modal-title">Edit Gallery Image</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('gallery')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <form id="gallery-modal-form" class="modal-form">
+            <input type="hidden" id="gallery-field-id">
+            <div class="gallery-preview-box">
+                <img src="" alt="Preview" id="gallery-preview-img" class="modal-image-preview">
+            </div>
+            <div class="form-group">
+                <label for="gallery-field-title">Caption Title</label>
+                <input type="text" id="gallery-field-title" required placeholder="e.g. Lead Vocalist">
+            </div>
+            <div class="form-group">
+                <label for="gallery-field-category">Category</label>
+                <select id="gallery-field-category" required>
+                    <option value="music">Music</option>
+                    <option value="dance">Dance</option>
+                    <option value="drama">Drama</option>
+                    <option value="visual">Visual Arts</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="gallery-field-desc">Detailed Description</label>
+                <textarea id="gallery-field-desc" required
+                    placeholder="Add stories or contextual descriptions..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="gallery-field-size">Layout Aspect Ratio Size</label>
+                <select id="gallery-field-size">
+                    <option value="">Normal Aspect (Square)</option>
+                    <option value="size-tall">Tall (Portrait)</option>
+                    <option value="size-wide">Wide (Landscape)</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label class="toggle-container">
+                    <input type="checkbox" id="gallery-field-featured">
+                    <span class="toggle-slider"></span>
+                    Featured (Pins to curated list)
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('gallery')">Cancel</button>
+                <button type="submit" class="btn-primary">Save Image Details</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 4. TEAM MEMBER MODAL -->
+    <div class="admin-modal glass-panel" id="modal-team">
+        <div class="modal-header">
+            <h3 id="team-modal-title">Edit Committee Profile</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('team')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <form id="team-modal-form" class="modal-form">
+            <input type="hidden" id="team-field-id">
+            <div class="form-group">
+                <label for="team-field-name">Full Name</label>
+                <input type="text" id="team-field-name" required placeholder="Kavishka Shenal">
+            </div>
+            <div class="form-group">
+                <label for="team-field-role">Assigned Position</label>
+                <select id="team-field-role" required>
+                    <option value="President">President</option>
+                    <option value="Vice President">Vice President</option>
+                    <option value="Secretary">Secretary</option>
+                    <option value="Assistant Secretary">Assistant Secretary</option>
+                    <option value="Treasurer">Treasurer</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Event Coordinates">Event Coordinates</option>
+                    <option value="Advisor">Advisor</option>
+                    <option value="Committee Member">Committee Member</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="team-field-photo">Photo URL / Base64</label>
+                <div class="input-file-action">
+                    <input type="text" id="team-field-photo" placeholder="ASSETS/images/p.jpeg" class="w-full">
+                    <button type="button" class="btn-secondary"
+                        onclick="document.getElementById('team-photo-file').click()"><i
+                            class="fas fa-upload"></i></button>
+                    <input type="file" id="team-photo-file" accept="image/*" class="hidden">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="team-field-bio">Manifesto Biography</label>
+                <textarea id="team-field-bio" required rows="3"
+                    placeholder="Brief outline of their vision or details..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="team-field-email">Email Address</label>
+                <input type="email" id="team-field-email" required placeholder="name@scuartcircle.org">
+            </div>
+            <div class="form-group">
+                <label for="team-field-phone">Phone Number (Optional)</label>
+                <input type="text" id="team-field-phone" placeholder="+1 555-0100">
+            </div>
+            <div class="form-group">
+                <label for="team-field-linkedin">LinkedIn Link</label>
+                <input type="text" id="team-field-linkedin" placeholder="#">
+            </div>
+            <div class="form-group">
+                <label for="team-field-instagram">Instagram Link</label>
+                <input type="text" id="team-field-instagram" placeholder="#">
+            </div>
+            <div class="form-group">
+                <label for="team-field-twitter">Twitter/X Link</label>
+                <input type="text" id="team-field-twitter" placeholder="#">
+            </div>
+            <div class="form-group">
+                <label for="team-field-order">Display Order</label>
+                <input type="number" id="team-field-order" required value="1">
+            </div>
+            <div class="form-group">
+                <label class="toggle-container">
+                    <input type="checkbox" id="team-field-active" checked>
+                    <span class="toggle-slider"></span>
+                    Active Status
+                </label>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('team')">Cancel</button>
+                <button type="submit" class="btn-primary">Save Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 5. ANNOUNCEMENT MODAL -->
+    <div class="admin-modal glass-panel" id="modal-announcement">
+        <div class="modal-header">
+            <h3 id="announcement-modal-title">Create Announcement Notice</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('announcement')"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        <form id="announcement-modal-form" class="modal-form">
+            <input type="hidden" id="ann-field-id">
+            <div class="form-group">
+                <label for="ann-field-title">Notice Title</label>
+                <input type="text" id="ann-field-title" required placeholder="Swara Tickets Available">
+            </div>
+            <div class="form-group">
+                <label for="ann-field-content">Notice Content Details</label>
+                <textarea id="ann-field-content" required rows="4" placeholder="Announcement body text..."></textarea>
+            </div>
+            <div class="form-group">
+                <label for="ann-field-image">Featured Image URL</label>
+                <input type="text" id="ann-field-image" placeholder="ASSETS/images/Singers.svg">
+            </div>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="ann-field-publish">Publish Date</label>
+                    <input type="date" id="ann-field-publish" required>
+                </div>
+                <div class="form-group">
+                    <label for="ann-field-expiry">Expiry Date</label>
+                    <input type="date" id="ann-field-expiry" required>
+                </div>
+            </div>
+            <div class="form-group toggle-row mt-2">
+                <label class="toggle-container">
+                    <input type="checkbox" id="ann-field-pinned">
+                    <span class="toggle-slider"></span>
+                    Pin to Homepage Top
+                </label>
+                <label class="toggle-container">
+                    <input type="checkbox" id="ann-field-scheduled">
+                    <span class="toggle-slider"></span>
+                    Schedule Publishing
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="ann-field-status">Visibility State</label>
+                <select id="ann-field-status" required>
+                    <option value="published">Visible (Live)</option>
+                    <option value="draft">Draft</option>
+                </select>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('announcement')">Cancel</button>
+                <button type="submit" class="btn-primary">Save Notice</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 6. USER MODAL -->
+    <div class="admin-modal glass-panel" id="modal-user">
+        <div class="modal-header">
+            <h3 id="user-modal-title">Create Admin Login</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('user')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <form id="user-modal-form" class="modal-form">
+            <div class="form-group">
+                <label for="user-field-username">Username</label>
+                <input type="text" id="user-field-username" required placeholder="e.g. content_editor">
+            </div>
+            <div class="form-group">
+                <label for="user-field-name">Full Name</label>
+                <input type="text" id="user-field-name" required placeholder="pam Beesly">
+            </div>
+            <div class="form-group">
+                <label for="user-field-email">Email Address</label>
+                <input type="email" id="user-field-email" required placeholder="pam@scuartcircle.org">
+            </div>
+            <div class="form-group">
+                <label for="user-field-role">Assigned Permission Role</label>
+                <select id="user-field-role" required>
+                    <option value="Super Admin">Super Admin</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Editor">Editor</option>
+                    <option value="Event Manager">Event Manager</option>
+                    <option value="Gallery Manager">Gallery Manager</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="user-field-password">Password</label>
+                <input type="password" id="user-field-password" required placeholder="••••••••">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('user')">Cancel</button>
+                <button type="submit" class="btn-primary">Create User</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 7. VIEW MEMBERSHIP APPLICATION MODAL -->
+    <div class="admin-modal glass-panel" id="modal-view-membership">
+        <div class="modal-header">
+            <h3>Membership Application</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('view-membership')"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" id="membership-detail-body">
+            <!-- Dynamic applicant details -->
+        </div>
+        <div class="modal-actions" id="membership-detail-actions">
+            <!-- Buttons dynamically rendered -->
+        </div>
+    </div>
+
+    <!-- 8. REPLY MESSAGE MODAL -->
+    <div class="admin-modal glass-panel" id="modal-reply-message">
+        <div class="modal-header">
+            <h3>Send Message Response</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('reply-message')"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        <form id="reply-message-form" class="modal-form">
+            <input type="hidden" id="reply-message-id">
+            <div class="form-group">
+                <label>To</label>
+                <input type="text" id="reply-to-email" readonly class="form-control-readonly">
+            </div>
+            <div class="form-group">
+                <label for="reply-subject">Subject</label>
+                <input type="text" id="reply-subject" required value="Re: SCU ArtCircle Inquiry">
+            </div>
+            <div class="form-group">
+                <label for="reply-content">Message Body</label>
+                <textarea id="reply-content" required rows="6"
+                    placeholder="Write your email response here..."></textarea>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('reply-message')">Cancel</button>
+                <button type="submit" class="btn-primary"><i class="far fa-paper-plane"></i> Send Email</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 9. PROFILE SETTINGS MODAL -->
+    <div class="admin-modal glass-panel" id="modal-profile-settings">
+        <div class="modal-header">
+            <h3>Profile Settings</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('profile-settings')"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        <form id="profile-settings-form" class="modal-form">
+            <div class="profile-avatar-upload">
+                <img src="" alt="Profile Image" id="profile-settings-img">
+                <button type="button" class="btn-secondary btn-sm"
+                    onclick="document.getElementById('profile-avatar-file').click()"><i class="fas fa-camera"></i>
+                    Change Image</button>
+                <input type="file" id="profile-avatar-file" accept="image/*" class="hidden">
+            </div>
+            <div class="form-group">
+                <label for="profile-name-field">Full Name</label>
+                <input type="text" id="profile-name-field" required>
+            </div>
+            <div class="form-group">
+                <label for="profile-email-field">Email Address</label>
+                <input type="email" id="profile-email-field" required>
+            </div>
+            <div class="form-group">
+                <label class="toggle-container">
+                    <input type="checkbox" id="profile-2fa-enabled">
+                    <span class="toggle-slider"></span>
+                    Enable Simulated Two-Factor Authentication (2FA)
+                </label>
+                <span class="form-help-text">Simulates code request upon subsequent logins.</span>
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary"
+                    onclick="closeAdminModal('profile-settings')">Cancel</button>
+                <button type="submit" class="btn-primary">Update Profile</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 10. CHANGE PASSWORD MODAL -->
+    <div class="admin-modal glass-panel" id="modal-change-password">
+        <div class="modal-header">
+            <h3>Change Password</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('change-password')"><i
+                    class="fas fa-xmark"></i></button>
+        </div>
+        <form id="change-password-form" class="modal-form">
+            <div class="form-group">
+                <label for="chg-password-current">Current Password</label>
+                <input type="password" id="chg-password-current" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label for="chg-password-new">New Password</label>
+                <input type="password" id="chg-password-new" required placeholder="••••••••">
+            </div>
+            <div class="form-group">
+                <label for="chg-password-confirm">Confirm New Password</label>
+                <input type="password" id="chg-password-confirm" required placeholder="••••••••">
+            </div>
+            <div class="modal-actions">
+                <button type="button" class="btn-secondary" onclick="closeAdminModal('change-password')">Cancel</button>
+                <button type="submit" class="btn-primary">Update Password</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 11. CONFIRMATION DIALOG (Generic) -->
+    <div class="admin-modal glass-panel confirmation-dialog" id="modal-confirm">
+        <div class="modal-header">
+            <h3 id="confirm-title">Confirm Action</h3>
+            <button class="modal-close-btn" onclick="closeAdminModal('confirm')"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p id="confirm-message">Are you absolutely sure you want to perform this action? This cannot be undone.</p>
+        </div>
+        <div class="modal-actions">
+            <button class="btn-secondary" onclick="closeAdminModal('confirm')">Cancel</button>
+            <button class="btn-primary btn-danger" id="confirm-yes-btn">Yes, Confirm</button>
+        </div>
+    </div>
+
+    <!-- 12. 2FA CODE MODAL -->
+    <div class="admin-modal glass-panel" id="modal-2fa">
+        <div class="modal-header">
+            <h3>Two-Factor Authentication</h3>
+        </div>
+        <form id="form-2fa" class="modal-form">
+            <p>Please enter the simulated authentication code sent to your credentials.</p>
+            <div class="form-group">
+                <div class="code-2fa-mock"><strong>MOCK CODE: <span id="mock-2fa-code">123456</span></strong></div>
+                <label for="field-2fa-code">Enter Code</label>
+                <input type="text" id="field-2fa-code" required placeholder="123456" maxlength="6"
+                    style="text-align: center; letter-spacing: 5px; font-size: 1.5rem; font-weight: bold;">
+            </div>
+            <div class="modal-actions">
+                <button type="submit" class="btn-primary w-full">Verify Code</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- TOAST NOTIFICATIONS -->
+    <div class="admin-toast-container" id="admin-toast-container"></div>
+</body>
+
+</html>

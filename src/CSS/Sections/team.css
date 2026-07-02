@@ -1,0 +1,156 @@
+.team {
+    background: var(--cream);
+    padding: 120px 8%;
+    border-radius: 40px;
+    margin-top: 15px;
+    position: relative;
+    overflow: hidden;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 30px;
+}
+
+.member-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.08);
+}
+
+.member-card-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    background: #000;
+}
+
+.member-card-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.member-card:hover .member-card-img-wrapper img {
+    transform: scale(1.08) translateY(-5px);
+    opacity: 0.75;
+}
+
+/* Social and Bio Overlays */
+.member-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(17, 17, 17, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    opacity: 0;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 2;
+}
+
+.member-card:hover .member-card-overlay {
+    opacity: 1;
+}
+
+.member-socials {
+    display: flex;
+    gap: 15px;
+    transform: translateY(15px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.member-card:hover .member-socials {
+    transform: translateY(0);
+}
+
+.social-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: white;
+    color: var(--dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    font-size: 1.1rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: var(--transition);
+}
+
+.social-icon:hover {
+    background: var(--primary);
+    color: black;
+    transform: scale(1.1);
+}
+
+.view-bio-btn {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: var(--font-editorial);
+    transform: translateY(15px);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.05s, background 0.3s, border-color 0.3s;
+}
+
+.member-card:hover .view-bio-btn {
+    transform: translateY(0);
+}
+
+.view-bio-btn:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: black;
+}
+
+.member-card-info {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.member-card h3 {
+    color: var(--dark);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+    font-family: var(--font-editorial);
+    letter-spacing: -0.3px;
+}
+
+.member-role {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-family: var(--font-editorial);
+}

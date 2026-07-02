@@ -1,0 +1,121 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions for session authorization
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function getUserData() {
+      return get(/databases/$(database)/documents/admins/$(request.auth.uid)).data;
+    }
+    
+    function hasRole(role) {
+      return isAuthenticated() && getUserData().role == role;
+    }
+    
+    function isSuperAdmin() {
+      return hasRole('Super Admin');
+    }
+    
+    function isAdmin() {
+      return hasRole('Super Admin') || hasRole('Admin');
+    }
+    
+    function isEditor() {
+      return hasRole('Super Admin') || hasRole('Admin') || hasRole('Editor');
+    }
+    
+    function isEventManager() {
+      return hasRole('Super Admin') || hasRole('Admin') || hasRole('Event Manager');
+    }
+    
+    function isGalleryManager() {
+      return hasRole('Super Admin') || hasRole('Admin') || hasRole('Gallery Manager');
+    }
+
+    // 1. Admins collection permissions
+    match /admins/{adminId} {
+      allow read: if isAuthenticated();
+      allow write: if isSuperAdmin();
+    }
+    
+    // 2. Settings singleton properties
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isSuperAdmin();
+    }
+    
+    // 3. Hero & About singletons
+    match /hero/{docId} {
+      allow read: if true;
+      allow write: if isEditor();
+    }
+    
+    match /about/{docId} {
+      allow read: if true;
+      allow write: if isEditor();
+    }
+
+    // 4. Categories
+    match /categories/{catId} {
+      allow read: if true;
+      allow write: if isEditor() || isEventManager();
+    }
+
+    // 5. Events
+    match /events/{eventId} {
+      allow read: if true;
+      allow write: if isEventManager();
+    }
+
+    // 6. Gallery Masonry
+    match /gallery/{imageId} {
+      allow read: if true;
+      allow write: if isEditor() || isGalleryManager();
+    }
+
+    // 7. Team committee directory
+    match /team/{memberId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // 8. Announcements notices
+    match /announcements/{annId} {
+      allow read: if true;
+      allow write: if isEditor();
+    }
+
+    // 9. Membership Applications Submissions
+    match /memberships/{memberId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 10. Contact messages inbox inquiries
+    match /contact_messages/{msgId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 11. Event RSVP registries
+    match /rsvpRegistrations/{rsvpId} {
+      allow create: if true;
+      allow read, update, delete: if isEventManager();
+    }
+
+    // 12. System Notifications Audit
+    match /notifications/{notifId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    // 13. System Activity audit logs
+    match /activity_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if isAuthenticated();
+    }
+  }
+}
